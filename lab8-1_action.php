@@ -9,10 +9,13 @@ print_r($file);
 
 if ($_SERVER["REQUEST_METHOD"]=="GET"){
   if (!empty($_GET['firstname']) && !empty($_GET['key'])){ //Q3
-    echo "<p>".$_GET['firstname']." ".$_GET['key']."</p>"; //Q3
+    //echo "<p>".$_GET['firstname']." ".$_GET['key']."</p>"; //Q3
     $data = "<p>".$_GET['key'].",".$_GET['firstname']."</p>";
     //echo $data;
-    $file = './data.txt';
+    $firstname = $_GET['firstname'];
+    $key = $_GET['key'];
+    //echo $firstname;
+    //echo $key;
     file_put_contents('./data.txt',$data);
   } else {
     echo "<p> Invalid input </p>";
@@ -25,6 +28,22 @@ if ($_SERVER["REQUEST_METHOD"]=="GET"){
     echo "<p> Invalid input </p>";
   }
 }
+
+$users = file('./data.txt') or die('ERROR: Cannot find file');
+$delimiter = ',';
+$newUsers = array();
+foreach($users as $user){
+  $userFields = explode($delimiter, $user);
+  $key = userFields[0];
+  $name = userFields[1];
+  $caption = userFields[2];
+  $image_path = userFields[3];
+  array_push($newUsers,$key,$name,$caption,$image_path);
+}
+
+print_r($newUsers);
+
+
 
 ?> 
 </body> 
